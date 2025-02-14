@@ -1,8 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { getPublicKeyFromPrivateKey } from 'model/lib/common/index';
 
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Hello World!';
+    const samplePrivateKey = new Uint8Array([
+      0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67,
+      0x89, 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef,
+      0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef,
+    ]);
+    const publicKey = getPublicKeyFromPrivateKey(samplePrivateKey);
+    const publicKeyHex = Buffer.from(publicKey).toString('hex');
+    return `Hello World! ${publicKeyHex}`;
   }
 }
